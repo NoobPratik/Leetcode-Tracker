@@ -1,3 +1,4 @@
+from html import unescape
 import json
 import os.path
 import re
@@ -184,16 +185,16 @@ class StartNewSession:
 
     @staticmethod
     def get_examples(description):
-        def extract_example(text):
-            input_match = re.search(r'Input:\s*(.*?)\nOutput:', text, re.DOTALL)
-            _input = input_match.group(1) if input_match else ""
-            output_match = re.search(r'Output:\s*(.*?)\n(?:Explanation:\s*(.*))?', text, re.DOTALL)
-            _output = output_match.group(1) if output_match else ""
+        def extract_example(example_html):
+            input_match = re.search(r'<strong>Input:</strong>\s*<span class="example-io">([^<]*)</span>', example_html)
+            output_match = re.search(r'<strong>Output:</strong>\s*<span class="example-io">([^<]*)</span>', example_html)
+
+            _input = unescape(input_match.group(1)) if input_match else ""
+            _output = unescape(output_match.group(1)) if output_match else ""
             return _input.strip(), _output.strip()
 
         examples = []
-        description = description.split("Constraints:")[0]
-        for match in re.finditer(r'Example \d:[\s\S]*?(?=(?:\nExample \d:)|\Z)', description):
-            examples.append(extract_example(match.group(0)))
-        print(examples)
+        for match in re.finditer(r'<div class="example-block">(.*?)</div>', description, re.DOTALL):
+            examples.append(extract_example(match.group(1)))
+
         return examples

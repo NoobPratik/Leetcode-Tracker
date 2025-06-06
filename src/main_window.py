@@ -38,7 +38,6 @@ class TabView(CTkTabview):
         self.client_socket = None
         self.toplevel_window = None
         self.description = None
-        self.discord_forum_id = None
         self.server_ip_address = None
 
         self.add("Add New")
@@ -213,6 +212,7 @@ class TabView(CTkTabview):
             }
 
         response = requests.post(self.base_url, json=json_data, stream=True, verify=False)
+        print(response.json()['data']['question']['content'])
         return response.json()['data']['question']['content']
 
     def get_all_problems(self):
@@ -263,6 +263,5 @@ class TabView(CTkTabview):
         self.ide_path = options['ide_path']
         self.leet_code_session = options['leetcode_session']
         self.user_name = options['user_name']
-        self.discord_forum_id = options['discord_forum_id']
         self.server_ip_address = (options['server_ip_address'].split(':')[0],
                                   int(options['server_ip_address'].split(':')[1]))

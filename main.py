@@ -16,6 +16,7 @@ class App(CTk):
         self.title('LeetCode Tracker')
         self.geometry('935x350')
         self.columnconfigure(0, weight=1)
+        self.iconbitmap('assets\\logo_sm.ico')
 
         self.leet_code_folder = f'{os.getenv("LOCALAPPDATA")}/LeetcodeTracker'
         self.db_file = f"{self.leet_code_folder}\\db.sqlite"
@@ -52,13 +53,15 @@ class App(CTk):
 
         queries = {
             "create_settings_table": """
-                CREATE TABLE IF NOT EXISTS user_settings (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    ide_path TEXT,
-                    leetcode_session TEXT,
-                    ide_option TEXT,
-                    user_name TEXT
-                );
+                CREATE TABLE "user_settings" (
+                    "id"	INTEGER,
+                    "ide_path"	TEXT,
+                    "leetcode_session"	TEXT,
+                    "ide_option"	TEXT,
+                    "user_name"	TEXT,
+                    "server_ip_address"	TEXT NULL,
+                    PRIMARY KEY("id" AUTOINCREMENT)
+                )
             """,
             "create_submissions_table": """
                 CREATE TABLE IF NOT EXISTS user_submissions (
@@ -76,8 +79,8 @@ class App(CTk):
                 );
             """,
             "insert_default_settings": """
-                INSERT INTO user_settings (id, ide_path, leetcode_session, ide_option, user_name)
-                VALUES (?, ?, ?, ?, ?);
+                INSERT INTO user_settings (id, ide_path, leetcode_session, ide_option, user_name, server_ip_address)
+                VALUES (?, ?, ?, ?, ?, ?);
             """
         }
 
@@ -89,7 +92,8 @@ class App(CTk):
             "IDE path here.....",
             "LeetCode Session here.....",
             "vs_code",
-            host_name
+            host_name,
+            "127.0.0.1"
         )
         self.execute(queries["insert_default_settings"], default_settings)
 

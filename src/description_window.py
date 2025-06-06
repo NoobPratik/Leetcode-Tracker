@@ -1,4 +1,3 @@
-import customtkinter
 from customtkinter import *
 from tkhtmlview import HTMLLabel
 
