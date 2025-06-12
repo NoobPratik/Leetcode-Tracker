@@ -1,6 +1,8 @@
+import base64
 import os.path
 import socket
 import sqlite3
+import tkinter
 from customtkinter import *
 
 from src.main_window import TabView
@@ -16,7 +18,7 @@ class App(CTk):
         self.title('LeetCode Tracker')
         self.geometry('935x350')
         self.columnconfigure(0, weight=1)
-        self.iconbitmap('assets\\logo_sm.ico')
+        self.iconbitmap(self.resource_path("logo_sm.ico"))
 
         self.leet_code_folder = f'{os.getenv("LOCALAPPDATA")}/LeetcodeTracker'
         self.db_file = f"{self.leet_code_folder}\\db.sqlite"
@@ -24,6 +26,11 @@ class App(CTk):
 
         self.tabview = TabView(self)
         self.tabview.grid(row=0, column=0, padx=20, pady=20, sticky="NSEW")
+
+    def resource_path(self, relative_path):
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(sys._MEIPASS, relative_path)
+        return os.path.join(os.path.abspath("./assets/"), relative_path)
 
     def execute(self, sql, *args):
         with sqlite3.connect(self.db_file, timeout=100) as conn:

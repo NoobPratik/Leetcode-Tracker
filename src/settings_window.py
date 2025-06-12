@@ -11,7 +11,7 @@ class SettingView:
         ide_path = StringVar(value=tabview.ide_path)
         session_var = StringVar(value=tabview.leet_code_session)
         username_var = StringVar(value=tabview.user_name)
-        server_ip_var = StringVar(value=tabview.server_ip_address)
+        server_ip_var = StringVar(value=f"{tabview.server_ip_address[0]}:{tabview.server_ip_address[1]}")
         self.ide_option = StringVar(value=tabview.ide_option)
 
         self.ide_path_label = CTkLabel(frame, text='IDE path: ')
