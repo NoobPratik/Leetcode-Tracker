@@ -1,4 +1,3 @@
-import os.path
 import socket
 import sqlite3
 from customtkinter import *
@@ -93,9 +92,9 @@ class App(CTk):
             "LeetCode Session here.....",
             "vs_code",
             host_name,
-            "127.0.0.1"
+            "127.0.0.1:8080"
         )
-        self.execute(queries["insert_default_settings"], default_settings)
+        self.execute(queries["insert_default_settings"], *default_settings)
 
 if __name__ == "__main__":
     app = App()
